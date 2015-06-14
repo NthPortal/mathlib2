@@ -1,10 +1,9 @@
 package com.github.nthportal.mathlib2.complex;
 
-import java.util.Random;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class Complex {
-    private static final Random random = new Random();
-
+public final class Complex {
     public final int real;
     public final int imaginary;
 
@@ -25,11 +24,40 @@ public class Complex {
         return new Complex((real * c.real) - (imaginary * c.imaginary), (real * c.imaginary) + (imaginary * c.real));
     }
 
+    public int asInt() throws ArithmeticException {
+        if (imaginary != 0) {
+            throw new ArithmeticException("Cannot convert complex number to integer: imaginary part is non-zero");
+        }
+        return real;
+    }
+
     public Complex conjugate() {
         return new Complex(real, -imaginary);
     }
 
-    public static Complex random() {
-        return new Complex(random.nextInt(), random.nextInt());
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(real)
+                .append(imaginary)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Complex rhs = (Complex) obj;
+        return new EqualsBuilder()
+                .append(real, rhs.real)
+                .append(imaginary, rhs.imaginary)
+                .isEquals();
     }
 }
