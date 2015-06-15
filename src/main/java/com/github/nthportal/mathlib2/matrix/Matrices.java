@@ -61,9 +61,9 @@ public class Matrices {
         }
 
         @Override
-        public Matrix add(Matrix m) throws MatrixSizeException {
+        public SquareMatrix add(Matrix m) throws MatrixSizeException {
             Checks.addSubtractCheck(this, m, true);
-            return m.add(this);
+            return DefaultSquareMatrix.fromMatrix(m.add(this));
         }
 
         @Override
@@ -73,7 +73,7 @@ public class Matrices {
         }
 
         @Override
-        public Matrix multiply(int scalar) {
+        public SquareMatrix multiply(int scalar) {
             return (scalar == 1) ? this : toSquareMatrix().multiply(scalar);
         }
 

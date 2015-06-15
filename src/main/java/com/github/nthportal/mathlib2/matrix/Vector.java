@@ -10,6 +10,15 @@ public interface Vector extends Matrix {
     }
 
     @Override
+    Vector add(Matrix m) throws MatrixSizeException;
+
+    @Override
+    Vector subtract(Matrix m) throws MatrixSizeException;
+
+    @Override
+    Vector multiply(int scalar);
+
+    @Override
     default boolean isVector() {
         return true;
     }
