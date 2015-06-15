@@ -44,11 +44,6 @@ public class Matrices {
         }
 
         @Override
-        public Matrix asMatrix() {
-            return this;
-        }
-
-        @Override
         public int rows() {
             return size;
         }
