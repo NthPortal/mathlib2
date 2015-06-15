@@ -54,32 +54,31 @@ public class MatrixBuilderTest {
 
     @Test
     public void testBean() throws Exception {
-        MatrixBuilder builder;
         try {
-            builder = new MatrixBuilder(0, 4);
+            new MatrixBuilder(0, 4);
             fail("Cannot have 0 rows");
         } catch (IllegalArgumentException ignored) {
         }
 
         try {
-            builder = new MatrixBuilder(3, 0);
+            new MatrixBuilder(3, 0);
             fail("Cannot have 0 columns");
         } catch (IllegalArgumentException ignored) {
         }
 
         try {
-            builder = new MatrixBuilder(0, 0);
+            new MatrixBuilder(0, 0);
             fail("Cannot have 0 rows or columns");
         } catch (IllegalArgumentException ignored) {
         }
 
         try {
-            builder = new MatrixBuilder(-2, -3);
+            new MatrixBuilder(-2, -3);
             fail("Cannot have negative rows or columns");
         } catch (IllegalArgumentException ignored) {
         }
 
-        builder = new MatrixBuilder(4, 3);
+        MatrixBuilder builder = new MatrixBuilder(4, 3);
 
         int rows = (int) builderRows.get(builder);
         int cols = (int) builderCols.get(builder);
@@ -96,30 +95,29 @@ public class MatrixBuilderTest {
 
     @Test
     public void testWithValue() throws Exception {
-        MatrixBuilder builder;
         try {
-            builder = new MatrixBuilder(4, 3)
+            new MatrixBuilder(4, 3)
                     .withValue(-1, 0, 0);
             fail("Cannot have a row index < 0");
         } catch (MatrixBoundsException ignored) {
         }
 
         try {
-            builder = new MatrixBuilder(4, 3)
+            new MatrixBuilder(4, 3)
                     .withValue(4, 0, 0);
             fail("Cannot have a row index >= number of rows");
         } catch (MatrixBoundsException ignored) {
         }
 
         try {
-            builder = new MatrixBuilder(4, 3)
+            new MatrixBuilder(4, 3)
                     .withValue(0, -1, 0);
             fail("Cannot have a column index < 0");
         } catch (MatrixBoundsException ignored) {
         }
 
         try {
-            builder = new MatrixBuilder(4, 3)
+            new MatrixBuilder(4, 3)
                     .withValue(0, 3, 0);
             fail("Cannot have a column index >= number of columns");
         } catch (MatrixBoundsException ignored) {
@@ -127,8 +125,11 @@ public class MatrixBuilderTest {
 
         int row = 0;
         int col = 2;
-        builder = new MatrixBuilder(4, 3)
+        MatrixBuilder builder = new MatrixBuilder(4, 3)
                 .withValue(row, col, 2);
+
+        boolean expired = (boolean) builderExpired.get(builder);
+        assertEquals(false, expired);
 
         int rows = (int) builderRows.get(builder);
         int cols = (int) builderCols.get(builder);
@@ -142,11 +143,32 @@ public class MatrixBuilderTest {
                 }
             }
         }
+
+        builder.create();
+        builder.withValue(row, col, 2);
+        array = (int[][]) builderArray.get(builder);
+        assertNotNull(array);
+        expired = (boolean) builderExpired.get(builder);
+        assertEquals(false, expired);
     }
 
     @Test
     public void testCreate() throws Exception {
         MatrixBuilder builder = new MatrixBuilder(4, 3);
 
+        boolean expired = (boolean) builderExpired.get(builder);
+        assertEquals(false, expired);
+        int[][] array = (int[][]) builderArray.get(builder);
+        assertNotNull(array);
+
+        Matrix matrix = builder.create();
+        assertArrayEquals(array, (int[][]) matrixArray.get(matrix));
+        assertEquals((int) builderRows.get(builder), (int) matrixRows.get(matrix));
+        assertEquals((int) builderCols.get(builder), (int) matrixCols.get(matrix));
+
+        expired = (boolean) builderExpired.get(builder);
+        assertEquals(true, expired);
+        array = (int[][]) builderArray.get(builder);
+        assertNull(array);
     }
 }
