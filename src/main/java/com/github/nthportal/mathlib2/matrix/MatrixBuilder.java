@@ -7,10 +7,7 @@ public class MatrixBuilder {
     private boolean expired = false;
 
     public MatrixBuilder(int rows, int cols) throws IllegalArgumentException {
-        if ((rows <= 0) || cols <= 0) {
-            throw new IllegalArgumentException("Matrix dimensions must be positive");
-        }
-
+        Matrices.Checks.constructCheck(rows, cols);
         this.rows = rows;
         this.cols = cols;
         array = new int[rows][cols];

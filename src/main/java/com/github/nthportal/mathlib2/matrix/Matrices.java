@@ -27,9 +27,7 @@ public class Matrices {
         private final int size;
 
         private IdentityMatrix(int size) throws IllegalArgumentException {
-            if (size <= 0) {
-                throw new IllegalArgumentException("Matrix dimensions must be positive");
-            }
+            Checks.constructCheck(size, size);
             this.size = size;
         }
 
@@ -95,7 +93,8 @@ public class Matrices {
         private final int rows;
         private final int cols;
 
-        private ZeroMatrix(int rows, int cols) {
+        private ZeroMatrix(int rows, int cols) throws IllegalArgumentException {
+            Checks.constructCheck(rows, cols);
             this.rows = rows;
             this.cols = cols;
         }
@@ -146,6 +145,12 @@ public class Matrices {
     }
 
     static class Checks {
+        static void constructCheck(int rows, int cols) throws IllegalArgumentException {
+            if ((rows <= 0) || cols <= 0) {
+                throw new IllegalArgumentException("Matrix dimensions must be positive");
+            }
+        }
+
         static void addSubtractCheck(Matrix m1, Matrix m2, boolean add) throws MatrixSizeException {
             String op = add ? "add" : "subtract";
             if (m2 == null) {
