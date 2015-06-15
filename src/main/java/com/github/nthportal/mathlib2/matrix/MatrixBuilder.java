@@ -34,4 +34,25 @@ public class MatrixBuilder {
         array = null;
         return matrix;
     }
+
+    public static VectorBuilder newVectorBuilder(int size) throws IllegalArgumentException {
+        return new VectorBuilder(new MatrixBuilder(size, 1));
+    }
+
+    public static class VectorBuilder {
+        private final MatrixBuilder underlyingBuilder;
+
+        private VectorBuilder(MatrixBuilder matrixBuilder) {
+            underlyingBuilder = matrixBuilder;
+        }
+
+        public VectorBuilder withValue(int index, int value) throws MatrixBoundsException {
+            underlyingBuilder.withValue(index, 1, value);
+            return this;
+        }
+
+        public Matrix.Vector create() {
+            return underlyingBuilder.create().asVector();
+        }
+    }
 }

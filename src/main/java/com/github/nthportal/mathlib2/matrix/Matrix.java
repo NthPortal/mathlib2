@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.Arrays;
 
-public class Matrix {
+public final class Matrix {
     public final int rows;
     public final int cols;
     private final int[][] array;
@@ -146,6 +146,14 @@ public class Matrix {
         return builder.isEquals();
     }
 
+    public boolean isVector() {
+        return (cols == 1);
+    }
+
+    public Vector asVector() throws MatrixSizeException {
+        return new Vector(this);
+    }
+
     private static int[][] getCopy(int[][] array) {
         int rows = array.length;
         int[][] copy = new int[rows][array[0].length];
@@ -153,5 +161,28 @@ public class Matrix {
             copy[i] = Arrays.copyOf(array[i], rows);
         }
         return copy;
+    }
+
+    public static class Vector {
+        private final Matrix underlyingMatrix;
+
+        private Vector(Matrix matrix) throws MatrixSizeException {
+            if (!matrix.isVector()) {
+                throw new MatrixSizeException("A matrix is only a vector if it has exactly 1 column");
+            }
+            underlyingMatrix = matrix;
+        }
+
+        public static Vector create(int[][] array) throws IllegalArgumentException, MatrixSizeException {
+            return Matrix.create(array).asVector();
+        }
+
+        public int size() {
+            return underlyingMatrix.rows;
+        }
+
+        public Matrix asMatrix() {
+            return underlyingMatrix;
+        }
     }
 }
