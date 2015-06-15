@@ -13,6 +13,7 @@ public class MatrixBuilderTest {
     private Field builderArray;
     private Field builderRows;
     private Field builderCols;
+    private Field builderExpired;
 
     private Field matrixArray;
     private Field matrixRows;
@@ -27,6 +28,8 @@ public class MatrixBuilderTest {
         builderRows.setAccessible(true);
         builderCols = matrixBuilderClass.getDeclaredField("cols");
         builderCols.setAccessible(true);
+        builderExpired = matrixBuilderClass.getDeclaredField("expired");
+        builderExpired.setAccessible(true);
 
         Class matrixClass = Matrix.class;
         matrixArray = matrixClass.getDeclaredField("array");
@@ -42,6 +45,7 @@ public class MatrixBuilderTest {
         builderArray.setAccessible(false);
         builderRows.setAccessible(false);
         builderCols.setAccessible(false);
+        builderExpired.setAccessible(false);
 
         matrixArray.setAccessible(false);
         matrixRows.setAccessible(false);
@@ -92,11 +96,38 @@ public class MatrixBuilderTest {
 
     @Test
     public void testWithValue() throws Exception {
-        // TODO check illegal args
+        MatrixBuilder builder;
+        try {
+            builder = new MatrixBuilder(4, 3)
+                    .withValue(-1, 0, 0);
+            fail("Cannot have a row index < 0");
+        } catch (MatrixBoundsException ignored) {
+        }
+
+        try {
+            builder = new MatrixBuilder(4, 3)
+                    .withValue(4, 0, 0);
+            fail("Cannot have a row index >= number of rows");
+        } catch (MatrixBoundsException ignored) {
+        }
+
+        try {
+            builder = new MatrixBuilder(4, 3)
+                    .withValue(0, -1, 0);
+            fail("Cannot have a column index < 0");
+        } catch (MatrixBoundsException ignored) {
+        }
+
+        try {
+            builder = new MatrixBuilder(4, 3)
+                    .withValue(0, 3, 0);
+            fail("Cannot have a column index >= number of columns");
+        } catch (MatrixBoundsException ignored) {
+        }
 
         int row = 0;
         int col = 2;
-        MatrixBuilder builder = new MatrixBuilder(4, 3)
+        builder = new MatrixBuilder(4, 3)
                 .withValue(row, col, 2);
 
         int rows = (int) builderRows.get(builder);
@@ -115,6 +146,7 @@ public class MatrixBuilderTest {
 
     @Test
     public void testCreate() throws Exception {
+        MatrixBuilder builder = new MatrixBuilder(4, 3);
 
     }
 }
