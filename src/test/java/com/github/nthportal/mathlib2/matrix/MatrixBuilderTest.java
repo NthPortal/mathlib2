@@ -23,7 +23,7 @@ public class MatrixBuilderTest {
         builderExpired = matrixBuilderClass.getDeclaredField("expired");
         builderExpired.setAccessible(true);
 
-        Class matrixClass = Matrix.class;
+        Class matrixClass = DefaultMatrix.class;
         matrixArray = matrixClass.getDeclaredField("array");
         matrixArray.setAccessible(true);
     }
@@ -143,10 +143,10 @@ public class MatrixBuilderTest {
         int[][] array = (int[][]) builderArray.get(builder);
         assertNotNull(array);
 
-        Matrix matrix = builder.create();
+        DefaultMatrix matrix = builder.create();
         assertArrayEquals(array, (int[][]) matrixArray.get(matrix));
-        assertEquals(builder.rows, matrix.rows);
-        assertEquals(builder.cols, matrix.cols);
+        assertEquals(builder.rows, matrix.rows());
+        assertEquals(builder.cols, matrix.columns());
 
         expired = (boolean) builderExpired.get(builder);
         assertEquals(true, expired);

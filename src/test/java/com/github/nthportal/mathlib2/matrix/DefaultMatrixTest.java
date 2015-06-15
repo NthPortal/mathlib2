@@ -4,13 +4,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class MatrixTest {
+public class DefaultMatrixTest {
+    private static Matrix m1;
+    private static Matrix m2;
+    private static Matrix m3;
 
     @Before
     public void setUp() throws Exception {
-
+        // TODO initialize matrices
     }
 
     @After

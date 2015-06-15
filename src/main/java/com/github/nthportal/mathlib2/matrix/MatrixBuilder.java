@@ -28,8 +28,8 @@ public class MatrixBuilder {
         return this;
     }
 
-    public Matrix create() {
-        Matrix matrix = new Matrix(array);
+    public DefaultMatrix create() {
+        DefaultMatrix matrix = new DefaultMatrix(array);
         expired = true;
         array = null;
         return matrix;
@@ -51,7 +51,7 @@ public class MatrixBuilder {
             return this;
         }
 
-        public Matrix.Vector create() {
+        public Vector create() {
             return underlyingBuilder.create().asVector();
         }
     }
