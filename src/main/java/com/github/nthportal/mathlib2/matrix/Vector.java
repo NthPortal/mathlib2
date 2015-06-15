@@ -6,7 +6,7 @@ public interface Vector extends Matrix {
     }
 
     default int get(int index) throws MatrixIndexOutOfBoundsException {
-        return get(index, 1);
+        return get(index, 0);
     }
 
     @Override
