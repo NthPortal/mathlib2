@@ -152,24 +152,6 @@ public final class DefaultMatrix implements Matrix {
         return builder.isEquals();
     }
 
-    @Override
-    public boolean isVector() {
-        return (cols == 1);
-    }
-
-    public DefaultVector asVector() throws MatrixSizeException {
-        return DefaultVector.fromMatrix(this);
-    }
-
-    @Override
-    public boolean isSquare() {
-        return (rows == cols);
-    }
-
-    public DefaultSquareMatrix asSquareMatrix() throws MatrixSizeException {
-        return DefaultSquareMatrix.fromMatrix(this);
-    }
-
     private static int[][] getCopy(int[][] array) {
         int rows = array.length;
         int[][] copy = new int[rows][array[0].length];

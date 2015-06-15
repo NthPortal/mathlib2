@@ -17,7 +17,11 @@ public interface Matrix {
 
     Matrix transpose();
 
-    boolean isVector();
+    default boolean isVector() {
+        return (columns() == 1);
+    }
 
-    boolean isSquare();
+    default boolean isSquare() {
+        return (rows() == columns());
+    }
 }

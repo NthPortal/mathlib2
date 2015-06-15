@@ -17,7 +17,7 @@ public class DefaultSquareMatrix implements SquareMatrix {
     }
 
     public static DefaultSquareMatrix create(int[][] array) throws IllegalArgumentException, MatrixSizeException {
-        return DefaultMatrix.create(array).asSquareMatrix();
+        return new DefaultSquareMatrix(DefaultMatrix.create(array));
     }
 
     public Matrix asMatrix() {
@@ -62,15 +62,5 @@ public class DefaultSquareMatrix implements SquareMatrix {
     @Override
     public DefaultSquareMatrix transpose() {
         return new DefaultSquareMatrix(underlyingMatrix.transpose());
-    }
-
-    @Override
-    public boolean isVector() {
-        return underlyingMatrix.isVector();
-    }
-
-    @Override
-    public boolean isSquare() {
-        return true;
     }
 }

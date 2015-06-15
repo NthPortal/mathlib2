@@ -73,11 +73,6 @@ public class DefaultVector implements Vector {
     }
 
     @Override
-    public boolean isVector() {
-        return true;
-    }
-
-    @Override
     public boolean isSquare() {
         return underlyingMatrix.isSquare();
     }

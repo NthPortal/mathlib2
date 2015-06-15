@@ -20,6 +20,10 @@ public class Matrices {
         return new IdentityMatrix(size);
     }
 
+    public static Matrix zeroMatrix(int rows, int cols) {
+        return new ZeroMatrix(rows, cols);
+    }
+
     private static class IdentityMatrix implements SquareMatrix {
         private final int size;
 
@@ -35,7 +39,7 @@ public class Matrices {
             for (int i = 0; i < size; i++) {
                 array[i][i] = 1;
             }
-            return new DefaultMatrix(array).asSquareMatrix();
+            return DefaultSquareMatrix.fromMatrix(new DefaultMatrix(array));
         }
 
         @Override
@@ -82,15 +86,55 @@ public class Matrices {
         public IdentityMatrix transpose() {
             return this;
         }
+    }
 
-        @Override
-        public boolean isVector() {
-            return (size == 1);
+    private static class ZeroMatrix implements Matrix {
+        private final int rows;
+        private final int cols;
+
+        private ZeroMatrix(int rows, int cols) {
+            this.rows = rows;
+            this.cols = cols;
         }
 
         @Override
-        public boolean isSquare() {
-            return true;
+        public int rows() {
+            return rows;
+        }
+
+        @Override
+        public int columns() {
+            return cols;
+        }
+
+        @Override
+        public int get(int row, int col) throws MatrixBoundsException {
+            return 0;
+        }
+
+        @Override
+        public Matrix add(Matrix m) throws MatrixSizeException {
+            return m;
+        }
+
+        @Override
+        public Matrix subtract(Matrix m) throws MatrixSizeException {
+            return m.multiply(-1);
+        }
+
+        @Override
+        public Matrix multiply(int scalar) {
+            return this;
+        }
+
+        @Override
+        public Matrix multiply(Matrix m) throws MatrixSizeException {
+            return new ZeroMatrix(rows, m.columns());
+        }
+
+        @Override
+        public Matrix transpose() {
+            return new ZeroMatrix(cols, rows);
         }
     }
 }
