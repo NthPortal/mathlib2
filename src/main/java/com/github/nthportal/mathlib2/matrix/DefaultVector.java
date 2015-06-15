@@ -71,9 +71,4 @@ public class DefaultVector implements Vector {
     public Matrix transpose() {
         return underlyingMatrix.transpose();
     }
-
-    @Override
-    public boolean isSquare() {
-        return underlyingMatrix.isSquare();
-    }
 }
