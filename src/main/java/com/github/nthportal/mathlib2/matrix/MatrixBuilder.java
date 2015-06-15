@@ -47,7 +47,7 @@ public class MatrixBuilder {
         }
 
         public VectorBuilder withValue(int index, int value) throws MatrixIndexOutOfBoundsException {
-            underlyingBuilder.withValue(index, 1, value);
+            underlyingBuilder.withValue(index, 0, value);
             return this;
         }
 
