@@ -41,9 +41,7 @@ public final class DefaultMatrix implements Matrix {
 
     @Override
     public int get(int row, int col) throws MatrixIndexOutOfBoundsException {
-        if ((row < 0) || (row >= rows) || (col < 0) || (col >= cols)) {
-            throw new MatrixIndexOutOfBoundsException("Index is out of bounds of the matrix");
-        }
+        Matrices.Checks.getCheck(this, row, col);
         return array[row][col];
     }
 
@@ -84,11 +82,7 @@ public final class DefaultMatrix implements Matrix {
 
     @Override
     public DefaultMatrix multiply(Matrix m) throws MatrixSizeException {
-        if (m == null) {
-            throw new NullPointerException("Cannot multiply by a null matrix");
-        } else if (cols != m.rows()) {
-            throw new MatrixSizeException("Cannot multiply by a matrix with a different number of rows than this has columns");
-        }
+        Matrices.Checks.multiplyCheck(this, m);
         int[][] result = new int[rows][m.columns()];
         for (int rowL = 0; rowL < rows; rowL++) {
             for (int colR = 0; colR < m.columns(); colR++) {

@@ -58,9 +58,7 @@ public class Matrices {
 
         @Override
         public int get(int row, int col) throws MatrixIndexOutOfBoundsException {
-            if ((row < 0) || (row >= size) || (col < 0) || (col >= size)) {
-                throw new MatrixIndexOutOfBoundsException("Index is out of bounds of the matrix");
-            }
+            Checks.getCheck(this, row, col);
             return (row == col) ? 1 : 0;
         }
 
@@ -83,11 +81,7 @@ public class Matrices {
 
         @Override
         public Matrix multiply(Matrix m) throws MatrixSizeException {
-            if (m == null) {
-                throw new NullPointerException("Cannot multiply by a null matrix");
-            } else if (size != m.rows()) {
-                throw new MatrixSizeException("Cannot multiply by a matrix with a different number of rows than this has columns");
-            }
+            Checks.multiplyCheck(this, m);
             return m;
         }
 
@@ -118,9 +112,7 @@ public class Matrices {
 
         @Override
         public int get(int row, int col) throws MatrixIndexOutOfBoundsException {
-            if ((row < 0) || (row >= rows) || (col < 0) || (col >= cols)) {
-                throw new MatrixIndexOutOfBoundsException("Index is out of bounds of the matrix");
-            }
+            Checks.getCheck(this, row, col);
             return 0;
         }
 
@@ -143,11 +135,7 @@ public class Matrices {
 
         @Override
         public Matrix multiply(Matrix m) throws MatrixSizeException {
-            if (m == null) {
-                throw new NullPointerException("Cannot multiply by a null matrix");
-            } else if (cols != m.rows()) {
-                throw new MatrixSizeException("Cannot multiply by a matrix with a different number of rows than this has columns");
-            }
+            Checks.multiplyCheck(this, m);
             return new ZeroMatrix(rows, m.columns());
         }
 
@@ -158,12 +146,26 @@ public class Matrices {
     }
 
     static class Checks {
-        public static void addSubtractCheck(Matrix m1, Matrix m2, boolean add) throws MatrixSizeException {
+        static void addSubtractCheck(Matrix m1, Matrix m2, boolean add) throws MatrixSizeException {
             String op = add ? "add" : "subtract";
             if (m2 == null) {
                 throw new NullPointerException("Cannot " + op + " a null matrix");
             } else if ((m1.rows() != m2.rows()) || (m1.columns() != m2.columns())) {
                 throw new MatrixSizeException("Cannot " + op + " matrices of different dimensions");
+            }
+        }
+
+        static void multiplyCheck(Matrix m1, Matrix m2) throws MatrixSizeException {
+            if (m2 == null) {
+                throw new NullPointerException("Cannot multiply by a null matrix");
+            } else if (m1.columns() != m2.rows()) {
+                throw new MatrixSizeException("Cannot multiply by a matrix with a different number of rows than this has columns");
+            }
+        }
+
+        static void getCheck(Matrix m, int row, int col) throws MatrixIndexOutOfBoundsException {
+            if ((row < 0) || (row >= m.rows()) || (col < 0) || (col >= m.columns())) {
+                throw new MatrixIndexOutOfBoundsException("Index is out of bounds of the matrix");
             }
         }
     }
