@@ -67,11 +67,21 @@ public class Matrices {
 
         @Override
         public Matrix add(Matrix m) throws MatrixSizeException {
+            if (m == null) {
+                throw new NullPointerException("Cannot add a null matrix");
+            } else if ((size != m.rows()) || (size != m.columns())) {
+                throw new MatrixSizeException("Cannot add matrices of different dimensions");
+            }
             return m.add(this);
         }
 
         @Override
         public DefaultSquareMatrix subtract(Matrix m) throws MatrixSizeException {
+            if (m == null) {
+                throw new NullPointerException("Cannot subtract a null matrix");
+            } else if ((size != m.rows()) || (size != m.columns())) {
+                throw new MatrixSizeException("Cannot subtract matrices of different dimensions");
+            }
             return toSquareMatrix().subtract(m);
         }
 
@@ -82,6 +92,11 @@ public class Matrices {
 
         @Override
         public Matrix multiply(Matrix m) throws MatrixSizeException {
+            if (m == null) {
+                throw new NullPointerException("Cannot multiply by a null matrix");
+            } else if (size != m.rows()) {
+                throw new MatrixSizeException("Cannot multiply by a matrix with a different number of rows than this has columns");
+            }
             return m;
         }
 
@@ -120,11 +135,21 @@ public class Matrices {
 
         @Override
         public Matrix add(Matrix m) throws MatrixSizeException {
+            if (m == null) {
+                throw new NullPointerException("Cannot add a null matrix");
+            } else if ((rows != m.rows()) || (cols != m.columns())) {
+                throw new MatrixSizeException("Cannot add matrices of different dimensions");
+            }
             return m;
         }
 
         @Override
         public Matrix subtract(Matrix m) throws MatrixSizeException {
+            if (m == null) {
+                throw new NullPointerException("Cannot subtract a null matrix");
+            } else if ((rows != m.rows()) || (cols != m.columns())) {
+                throw new MatrixSizeException("Cannot subtract matrices of different dimensions");
+            }
             return m.multiply(-1);
         }
 
@@ -135,6 +160,11 @@ public class Matrices {
 
         @Override
         public Matrix multiply(Matrix m) throws MatrixSizeException {
+            if (m == null) {
+                throw new NullPointerException("Cannot multiply by a null matrix");
+            } else if (cols != m.rows()) {
+                throw new MatrixSizeException("Cannot multiply by a matrix with a different number of rows than this has columns");
+            }
             return new ZeroMatrix(rows, m.columns());
         }
 

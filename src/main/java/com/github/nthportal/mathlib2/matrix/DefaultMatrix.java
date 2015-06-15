@@ -66,7 +66,7 @@ public final class DefaultMatrix implements Matrix {
     @Override
     public DefaultMatrix subtract(Matrix m) throws MatrixSizeException {
         if (m == null) {
-            throw new NullPointerException("Cannot add a null matrix");
+            throw new NullPointerException("Cannot subtract a null matrix");
         } else if ((rows != m.rows()) || (cols != m.columns())) {
             throw new MatrixSizeException("Cannot subtract matrices of different dimensions");
         }
@@ -93,7 +93,7 @@ public final class DefaultMatrix implements Matrix {
     @Override
     public DefaultMatrix multiply(Matrix m) throws MatrixSizeException {
         if (m == null) {
-            throw new NullPointerException("Cannot add a null matrix");
+            throw new NullPointerException("Cannot multiply by a null matrix");
         } else if (cols != m.rows()) {
             throw new MatrixSizeException("Cannot multiply by a matrix with a different number of rows than this has columns");
         }
