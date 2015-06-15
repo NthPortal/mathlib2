@@ -59,6 +59,9 @@ public class Matrices {
 
         @Override
         public int get(int row, int col) throws MatrixBoundsException {
+            if ((row < 0) || (row >= size) || (col < 0) || (col >= size)) {
+                throw new MatrixBoundsException("Index is out of bounds of the matrix");
+            }
             return (row == col) ? 1 : 0;
         }
 
@@ -109,6 +112,9 @@ public class Matrices {
 
         @Override
         public int get(int row, int col) throws MatrixBoundsException {
+            if ((row < 0) || (row >= rows) || (col < 0) || (col >= cols)) {
+                throw new MatrixBoundsException("Index is out of bounds of the matrix");
+            }
             return 0;
         }
 
