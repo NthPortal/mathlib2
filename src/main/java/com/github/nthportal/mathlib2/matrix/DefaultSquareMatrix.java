@@ -18,10 +18,7 @@ public class DefaultSquareMatrix implements SquareMatrix {
         return DefaultMatrix.create(array).asSquareMatrix();
     }
 
-    public int size() {
-        return underlyingMatrix.rows();
-    }
-
+    @Override
     public Matrix asMatrix() {
         return underlyingMatrix;
     }
