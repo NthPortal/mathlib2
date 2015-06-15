@@ -10,6 +10,8 @@ public class DefaultSquareMatrix implements SquareMatrix {
     public static DefaultSquareMatrix fromMatrix(Matrix matrix) throws MatrixSizeException {
         if (!matrix.isSquare()) {
             throw new MatrixSizeException("A square matrix must have the same number of rows and columns");
+        } else if (matrix instanceof DefaultSquareMatrix) {
+            return (DefaultSquareMatrix) matrix;
         }
         return new DefaultSquareMatrix(matrix);
     }
@@ -18,7 +20,6 @@ public class DefaultSquareMatrix implements SquareMatrix {
         return DefaultMatrix.create(array).asSquareMatrix();
     }
 
-    @Override
     public Matrix asMatrix() {
         return underlyingMatrix;
     }
