@@ -66,21 +66,13 @@ public class Matrices {
 
         @Override
         public Matrix add(Matrix m) throws MatrixSizeException {
-            if (m == null) {
-                throw new NullPointerException("Cannot add a null matrix");
-            } else if ((size != m.rows()) || (size != m.columns())) {
-                throw new MatrixSizeException("Cannot add matrices of different dimensions");
-            }
+            Checks.addSubtractCheck(this, m, true);
             return m.add(this);
         }
 
         @Override
         public DefaultSquareMatrix subtract(Matrix m) throws MatrixSizeException {
-            if (m == null) {
-                throw new NullPointerException("Cannot subtract a null matrix");
-            } else if ((size != m.rows()) || (size != m.columns())) {
-                throw new MatrixSizeException("Cannot subtract matrices of different dimensions");
-            }
+            Checks.addSubtractCheck(this, m, false);
             return toSquareMatrix().subtract(m);
         }
 
@@ -134,21 +126,13 @@ public class Matrices {
 
         @Override
         public Matrix add(Matrix m) throws MatrixSizeException {
-            if (m == null) {
-                throw new NullPointerException("Cannot add a null matrix");
-            } else if ((rows != m.rows()) || (cols != m.columns())) {
-                throw new MatrixSizeException("Cannot add matrices of different dimensions");
-            }
+            Checks.addSubtractCheck(this, m, true);
             return m;
         }
 
         @Override
         public Matrix subtract(Matrix m) throws MatrixSizeException {
-            if (m == null) {
-                throw new NullPointerException("Cannot subtract a null matrix");
-            } else if ((rows != m.rows()) || (cols != m.columns())) {
-                throw new MatrixSizeException("Cannot subtract matrices of different dimensions");
-            }
+            Checks.addSubtractCheck(this, m, false);
             return m.multiply(-1);
         }
 
@@ -170,6 +154,17 @@ public class Matrices {
         @Override
         public Matrix transpose() {
             return new ZeroMatrix(cols, rows);
+        }
+    }
+
+    static class Checks {
+        public static void addSubtractCheck(Matrix m1, Matrix m2, boolean add) throws MatrixSizeException {
+            String op = add ? "add" : "subtract";
+            if (m2 == null) {
+                throw new NullPointerException("Cannot " + op + " a null matrix");
+            } else if ((m1.rows() != m2.rows()) || (m1.columns() != m2.columns())) {
+                throw new MatrixSizeException("Cannot " + op + " matrices of different dimensions");
+            }
         }
     }
 }

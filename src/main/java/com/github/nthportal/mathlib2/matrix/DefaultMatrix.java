@@ -49,11 +49,7 @@ public final class DefaultMatrix implements Matrix {
 
     @Override
     public DefaultMatrix add(Matrix m) throws MatrixSizeException {
-        if (m == null) {
-            throw new NullPointerException("Cannot add a null matrix");
-        } else if ((rows != m.rows()) || (cols != m.columns())) {
-            throw new MatrixSizeException("Cannot add matrices of different dimensions");
-        }
+        Matrices.Checks.addSubtractCheck(this, m, true);
         int[][] result = new int[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -65,11 +61,7 @@ public final class DefaultMatrix implements Matrix {
 
     @Override
     public DefaultMatrix subtract(Matrix m) throws MatrixSizeException {
-        if (m == null) {
-            throw new NullPointerException("Cannot subtract a null matrix");
-        } else if ((rows != m.rows()) || (cols != m.columns())) {
-            throw new MatrixSizeException("Cannot subtract matrices of different dimensions");
-        }
+        Matrices.Checks.addSubtractCheck(this, m, false);
         int[][] result = new int[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
