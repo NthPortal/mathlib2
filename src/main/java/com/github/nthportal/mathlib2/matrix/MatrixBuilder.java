@@ -1,8 +1,8 @@
 package com.github.nthportal.mathlib2.matrix;
 
 public class MatrixBuilder {
-    private final int rows;
-    private final int cols;
+    public final int rows;
+    public final int cols;
     private int[][] array;
     private boolean expired = false;
 

@@ -11,45 +11,29 @@ import static org.junit.Assert.*;
 public class MatrixBuilderTest {
 
     private Field builderArray;
-    private Field builderRows;
-    private Field builderCols;
     private Field builderExpired;
 
     private Field matrixArray;
-    private Field matrixRows;
-    private Field matrixCols;
 
     @Before
     public void setUp() throws Exception {
         Class matrixBuilderClass = MatrixBuilder.class;
         builderArray = matrixBuilderClass.getDeclaredField("array");
         builderArray.setAccessible(true);
-        builderRows = matrixBuilderClass.getDeclaredField("rows");
-        builderRows.setAccessible(true);
-        builderCols = matrixBuilderClass.getDeclaredField("cols");
-        builderCols.setAccessible(true);
         builderExpired = matrixBuilderClass.getDeclaredField("expired");
         builderExpired.setAccessible(true);
 
         Class matrixClass = Matrix.class;
         matrixArray = matrixClass.getDeclaredField("array");
         matrixArray.setAccessible(true);
-        matrixRows = matrixClass.getDeclaredField("rows");
-        matrixRows.setAccessible(true);
-        matrixCols = matrixClass.getDeclaredField("cols");
-        matrixCols.setAccessible(true);
     }
 
     @After
     public void tearDown() throws Exception {
         builderArray.setAccessible(false);
-        builderRows.setAccessible(false);
-        builderCols.setAccessible(false);
         builderExpired.setAccessible(false);
 
         matrixArray.setAccessible(false);
-        matrixRows.setAccessible(false);
-        matrixCols.setAccessible(false);
     }
 
     @Test
@@ -80,8 +64,8 @@ public class MatrixBuilderTest {
 
         MatrixBuilder builder = new MatrixBuilder(4, 3);
 
-        int rows = (int) builderRows.get(builder);
-        int cols = (int) builderCols.get(builder);
+        int rows = builder.rows;
+        int cols = builder.cols;
         assertEquals(4, rows);
         assertEquals(3, cols);
 
@@ -131,11 +115,9 @@ public class MatrixBuilderTest {
         boolean expired = (boolean) builderExpired.get(builder);
         assertEquals(false, expired);
 
-        int rows = (int) builderRows.get(builder);
-        int cols = (int) builderCols.get(builder);
         int[][] array = (int[][]) builderArray.get(builder);
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        for (int i = 0; i < builder.rows; i++) {
+            for (int j = 0; j < builder.cols; j++) {
                 if ((row == i) && (col == j)) {
                     assertEquals(2, array[i][j]);
                 } else {
@@ -163,8 +145,8 @@ public class MatrixBuilderTest {
 
         Matrix matrix = builder.create();
         assertArrayEquals(array, (int[][]) matrixArray.get(matrix));
-        assertEquals((int) builderRows.get(builder), (int) matrixRows.get(matrix));
-        assertEquals((int) builderCols.get(builder), (int) matrixCols.get(matrix));
+        assertEquals(builder.rows, matrix.rows);
+        assertEquals(builder.cols, matrix.cols);
 
         expired = (boolean) builderExpired.get(builder);
         assertEquals(true, expired);

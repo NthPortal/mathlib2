@@ -6,8 +6,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Arrays;
 
 public class Matrix {
-    private final int rows;
-    private final int cols;
+    public final int rows;
+    public final int cols;
     private final int[][] array;
 
     Matrix(int[][] array) {
