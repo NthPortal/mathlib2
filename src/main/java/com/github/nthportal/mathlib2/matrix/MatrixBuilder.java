@@ -51,8 +51,8 @@ public class MatrixBuilder {
             return this;
         }
 
-        public Vector create() {
-            return Vector.fromMatrix(underlyingBuilder.create());
+        public DefaultVector create() {
+            return DefaultVector.fromMatrix(underlyingBuilder.create());
         }
     }
 }

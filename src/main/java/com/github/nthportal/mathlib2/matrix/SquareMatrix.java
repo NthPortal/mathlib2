@@ -4,6 +4,4 @@ public interface SquareMatrix extends Matrix {
     default int size() {
         return rows();
     }
-
-    Matrix asMatrix();
 }

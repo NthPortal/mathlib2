@@ -157,8 +157,8 @@ public final class DefaultMatrix implements Matrix {
         return (cols == 1);
     }
 
-    public Vector asVector() throws MatrixSizeException {
-        return Vector.fromMatrix(this);
+    public DefaultVector asVector() throws MatrixSizeException {
+        return DefaultVector.fromMatrix(this);
     }
 
     @Override
