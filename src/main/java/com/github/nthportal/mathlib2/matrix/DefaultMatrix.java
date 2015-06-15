@@ -40,9 +40,9 @@ public final class DefaultMatrix implements Matrix {
     }
 
     @Override
-    public int get(int row, int col) throws MatrixBoundsException {
+    public int get(int row, int col) throws MatrixIndexOutOfBoundsException {
         if ((row < 0) || (row >= rows) || (col < 0) || (col >= cols)) {
-            throw new MatrixBoundsException("Index is out of bounds of the matrix");
+            throw new MatrixIndexOutOfBoundsException("Index is out of bounds of the matrix");
         }
         return array[row][col];
     }

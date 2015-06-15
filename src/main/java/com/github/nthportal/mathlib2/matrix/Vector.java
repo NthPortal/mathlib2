@@ -5,7 +5,7 @@ public interface Vector extends Matrix {
         return rows();
     }
 
-    default int get(int index) throws MatrixBoundsException {
+    default int get(int index) throws MatrixIndexOutOfBoundsException {
         return get(index, 1);
     }
 

@@ -83,28 +83,28 @@ public class MatrixBuilderTest {
             new MatrixBuilder(4, 3)
                     .withValue(-1, 0, 0);
             fail("Cannot have a row index < 0");
-        } catch (MatrixBoundsException ignored) {
+        } catch (MatrixIndexOutOfBoundsException ignored) {
         }
 
         try {
             new MatrixBuilder(4, 3)
                     .withValue(4, 0, 0);
             fail("Cannot have a row index >= number of rows");
-        } catch (MatrixBoundsException ignored) {
+        } catch (MatrixIndexOutOfBoundsException ignored) {
         }
 
         try {
             new MatrixBuilder(4, 3)
                     .withValue(0, -1, 0);
             fail("Cannot have a column index < 0");
-        } catch (MatrixBoundsException ignored) {
+        } catch (MatrixIndexOutOfBoundsException ignored) {
         }
 
         try {
             new MatrixBuilder(4, 3)
                     .withValue(0, 3, 0);
             fail("Cannot have a column index >= number of columns");
-        } catch (MatrixBoundsException ignored) {
+        } catch (MatrixIndexOutOfBoundsException ignored) {
         }
 
         int row = 0;

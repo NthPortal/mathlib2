@@ -35,7 +35,7 @@ public class DefaultSquareMatrix implements SquareMatrix {
     }
 
     @Override
-    public int get(int row, int col) throws MatrixBoundsException {
+    public int get(int row, int col) throws MatrixIndexOutOfBoundsException {
         return underlyingMatrix.get(row, col);
     }
 

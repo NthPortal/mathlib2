@@ -16,13 +16,13 @@ public class MatrixBuilder {
         array = new int[rows][cols];
     }
 
-    public MatrixBuilder withValue(int row, int col, int value) throws MatrixBoundsException {
+    public MatrixBuilder withValue(int row, int col, int value) throws MatrixIndexOutOfBoundsException {
         if (expired) {
             array = new int[rows][cols];
             expired = false;
         }
         if ((row < 0) || (row >= rows) || (col < 0) || (col >= cols)) {
-            throw new MatrixBoundsException("Value must be within bounds of matrix");
+            throw new MatrixIndexOutOfBoundsException("Value must be within bounds of matrix");
         }
         array[row][col] = value;
         return this;
@@ -46,7 +46,7 @@ public class MatrixBuilder {
             underlyingBuilder = matrixBuilder;
         }
 
-        public VectorBuilder withValue(int index, int value) throws MatrixBoundsException {
+        public VectorBuilder withValue(int index, int value) throws MatrixIndexOutOfBoundsException {
             underlyingBuilder.withValue(index, 1, value);
             return this;
         }

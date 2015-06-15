@@ -5,7 +5,7 @@ public interface Matrix {
 
     int columns();
 
-    int get(int row, int col) throws MatrixBoundsException;
+    int get(int row, int col) throws MatrixIndexOutOfBoundsException;
 
     Matrix add(Matrix m) throws MatrixSizeException;
 
