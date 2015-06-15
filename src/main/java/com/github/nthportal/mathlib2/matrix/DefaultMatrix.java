@@ -158,7 +158,7 @@ public final class DefaultMatrix implements Matrix {
     }
 
     public Vector asVector() throws MatrixSizeException {
-        return new Vector(this);
+        return Vector.fromMatrix(this);
     }
 
     @Override
@@ -167,7 +167,7 @@ public final class DefaultMatrix implements Matrix {
     }
 
     public DefaultSquareMatrix asSquareMatrix() throws MatrixSizeException {
-        return new DefaultSquareMatrix(this);
+        return DefaultSquareMatrix.fromMatrix(this);
     }
 
     private static int[][] getCopy(int[][] array) {

@@ -52,7 +52,7 @@ public class MatrixBuilder {
         }
 
         public Vector create() {
-            return underlyingBuilder.create().asVector();
+            return Vector.fromMatrix(underlyingBuilder.create());
         }
     }
 }

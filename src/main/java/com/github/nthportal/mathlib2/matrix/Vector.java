@@ -3,15 +3,19 @@ package com.github.nthportal.mathlib2.matrix;
 public class Vector implements Matrix {
     private final Matrix underlyingMatrix;
 
-    Vector(Matrix matrix) throws MatrixSizeException {
-        if (!matrix.isVector()) {
-            throw new MatrixSizeException("A matrix is only a vector if it has exactly 1 column");
-        }
+    private Vector(Matrix matrix) {
         underlyingMatrix = matrix;
     }
 
+    public static Vector fromMatrix(Matrix matrix) throws MatrixSizeException {
+        if (!matrix.isVector()) {
+            throw new MatrixSizeException("A matrix is only a vector if it has exactly 1 column");
+        }
+        return new Vector(matrix);
+    }
+
     public static Vector create(int[][] array) throws IllegalArgumentException, MatrixSizeException {
-        return DefaultMatrix.create(array).asVector();
+        return new Vector(DefaultMatrix.create(array));
     }
 
     public static Vector create(int[] array) throws IllegalArgumentException {
