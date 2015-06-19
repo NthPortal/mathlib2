@@ -6,11 +6,26 @@ public class MatrixBuilder {
     private int[][] array;
     private boolean expired = false;
 
-    public MatrixBuilder(int rows, int cols) throws IllegalArgumentException {
-        Matrices.Checks.constructCheck(rows, cols);
+    private MatrixBuilder(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
         array = new int[rows][cols];
+    }
+
+    public static MatrixBuilder newBuilder(int rows, int cols) throws IllegalArgumentException {
+        Matrices.Checks.constructCheck(rows, cols);
+        return new MatrixBuilder(rows, cols);
+    }
+
+
+    public static SquareMatrixBuilder squareBuilder(int size) throws IllegalArgumentException {
+        Matrices.Checks.constructCheck(size, size);
+        return new SquareMatrixBuilder(size);
+    }
+
+    public static VectorBuilder vectorBuilder(int size) throws IllegalArgumentException {
+        Matrices.Checks.constructCheck(size, size);
+        return new VectorBuilder(new MatrixBuilder(size, size));
     }
 
     public MatrixBuilder withValue(int row, int col, int value) throws MatrixIndexOutOfBoundsException {
@@ -25,15 +40,22 @@ public class MatrixBuilder {
         return this;
     }
 
-    public DefaultMatrix create() {
+    public Matrix create() {
         DefaultMatrix matrix = new DefaultMatrix(array);
         expired = true;
         array = null;
         return matrix;
     }
 
-    public static VectorBuilder newVectorBuilder(int size) throws IllegalArgumentException {
-        return new VectorBuilder(new MatrixBuilder(size, 1));
+    public static class SquareMatrixBuilder extends MatrixBuilder {
+        private SquareMatrixBuilder(int size) {
+            super(size, size);
+        }
+
+        @Override
+        public SquareMatrix create() {
+            return Matrices.Square.fromMatrix(super.create());
+        }
     }
 
     public static class VectorBuilder {
@@ -48,8 +70,8 @@ public class MatrixBuilder {
             return this;
         }
 
-        public DefaultVector create() {
-            return DefaultVector.fromMatrix(underlyingBuilder.create());
+        public Vector create() {
+            return Matrices.Vectors.fromMatrix(underlyingBuilder.create());
         }
     }
 }

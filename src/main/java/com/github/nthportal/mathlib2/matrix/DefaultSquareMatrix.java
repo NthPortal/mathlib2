@@ -1,27 +1,10 @@
 package com.github.nthportal.mathlib2.matrix;
 
-public class DefaultSquareMatrix implements SquareMatrix {
+class DefaultSquareMatrix implements SquareMatrix {
     private final Matrix underlyingMatrix;
 
-    private DefaultSquareMatrix(Matrix matrix) {
+    DefaultSquareMatrix(Matrix matrix) {
         underlyingMatrix = matrix;
-    }
-
-    public static DefaultSquareMatrix fromMatrix(Matrix matrix) throws MatrixSizeException {
-        if (!matrix.isSquare()) {
-            throw new MatrixSizeException("A square matrix must have the same number of rows and columns");
-        } else if (matrix instanceof DefaultSquareMatrix) {
-            return (DefaultSquareMatrix) matrix;
-        }
-        return new DefaultSquareMatrix(matrix);
-    }
-
-    public static DefaultSquareMatrix create(int[][] array) throws IllegalArgumentException, MatrixSizeException {
-        return new DefaultSquareMatrix(DefaultMatrix.create(array));
-    }
-
-    public Matrix asMatrix() {
-        return underlyingMatrix;
     }
 
     @Override

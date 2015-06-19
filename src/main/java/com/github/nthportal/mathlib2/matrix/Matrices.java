@@ -1,7 +1,34 @@
 package com.github.nthportal.mathlib2.matrix;
 
+import java.util.Arrays;
+
 public class Matrices {
+    static boolean equals(Matrix m1, Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == m1) {
+            return true;
+        }
+        if (!(obj instanceof Matrix)) {
+            return false;
+        }
+        Matrix m2 = (Matrix) obj;
+        return equalsInternal(m1, m2);
+    }
+
     public static boolean equals(Matrix m1, Matrix m2) {
+        // Separate statements for clarity
+        if (m1 == m2) {
+            return true;
+        }
+        if ((m1 == null) || (m2 == null)) {
+            return false;
+        }
+        return equalsInternal(m1, m2);
+    }
+
+    private static boolean equalsInternal(Matrix m1, Matrix m2) {
         if ((m1.rows() != m2.rows()) || (m1.columns() != m2.columns())) {
             return false;
         }
@@ -15,12 +42,59 @@ public class Matrices {
         return true;
     }
 
+    public static Matrix fromArray(int[][] array) throws IllegalArgumentException {
+        if ((array == null) || (array.length == 0)) {
+            throw new IllegalArgumentException("Array from which to construct matrix cannot be null or of 0 length");
+        }
+        for (int[] row : array) {
+            if ((row == null) || row.length == 0) {
+                throw new IllegalArgumentException("Array from which to construct matrix cannot contain null row or row of length 0");
+            }
+        }
+
+        return new DefaultMatrix(Matrices.Util.getCopy(array));
+    }
+
     public static SquareMatrix identity(int size) {
         return new IdentityMatrix(size);
     }
 
     public static Matrix zeroMatrix(int rows, int cols) {
         return new ZeroMatrix(rows, cols);
+    }
+
+    public static class Square {
+        public static SquareMatrix fromMatrix(Matrix matrix) throws MatrixSizeException {
+            if (!matrix.isSquare()) {
+                throw new MatrixSizeException("A square matrix must have the same number of rows and columns");
+            } else if (matrix instanceof SquareMatrix) {
+                return (SquareMatrix) matrix;
+            }
+            return new DefaultSquareMatrix(matrix);
+        }
+    }
+
+    public static class Vectors {
+        public static Vector fromArray2d(int[][] array) throws IllegalArgumentException, MatrixSizeException {
+            return fromMatrix(fromArray(array));
+        }
+
+        public static Vector fromArray1d(int[] array) throws IllegalArgumentException {
+            MatrixBuilder.VectorBuilder builder = MatrixBuilder.vectorBuilder(array.length);
+            for (int i = 0; i < array.length; i++) {
+                builder.withValue(i, array[i]);
+            }
+            return builder.create();
+        }
+
+        public static Vector fromMatrix(Matrix matrix) throws MatrixSizeException {
+            if (!matrix.isVector()) {
+                throw new MatrixSizeException("A matrix is only a vector if it has exactly 1 column");
+            } else if (matrix instanceof  Vector) {
+                return (Vector) matrix;
+            }
+            return new DefaultVector(matrix);
+        }
     }
 
     private static class IdentityMatrix implements SquareMatrix {
@@ -31,12 +105,12 @@ public class Matrices {
             this.size = size;
         }
 
-        private DefaultSquareMatrix toSquareMatrix() {
+        private SquareMatrix toSquareMatrix() {
             int[][] array = new int[size][size];
             for (int i = 0; i < size; i++) {
                 array[i][i] = 1;
             }
-            return DefaultSquareMatrix.fromMatrix(new DefaultMatrix(array));
+            return Square.fromMatrix(new DefaultMatrix(array));
         }
 
         @Override
@@ -63,11 +137,11 @@ public class Matrices {
         @Override
         public SquareMatrix add(Matrix m) throws MatrixSizeException {
             Checks.addSubtractCheck(this, m, true);
-            return DefaultSquareMatrix.fromMatrix(m.add(this));
+            return Square.fromMatrix(m.add(this));
         }
 
         @Override
-        public DefaultSquareMatrix subtract(Matrix m) throws MatrixSizeException {
+        public SquareMatrix subtract(Matrix m) throws MatrixSizeException {
             Checks.addSubtractCheck(this, m, false);
             return toSquareMatrix().subtract(m);
         }
@@ -172,6 +246,17 @@ public class Matrices {
             if ((row < 0) || (row >= m.rows()) || (col < 0) || (col >= m.columns())) {
                 throw new MatrixIndexOutOfBoundsException("Index is out of bounds of the matrix");
             }
+        }
+    }
+
+    static class Util {
+        static int[][] getCopy(int[][] array) {
+            int rows = array.length;
+            int[][] copy = new int[rows][array[0].length];
+            for (int i = 0; i < rows; i++) {
+                copy[i] = Arrays.copyOf(array[i], rows);
+            }
+            return copy;
         }
     }
 }

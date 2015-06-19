@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.Arrays;
 
-public final class DefaultMatrix implements Matrix {
+class DefaultMatrix implements Matrix {
     private final int rows;
     private final int cols;
     private final int[][] array;
@@ -14,19 +14,6 @@ public final class DefaultMatrix implements Matrix {
         this.array = array;
         rows = array.length;
         cols = array[0].length;
-    }
-
-    public static DefaultMatrix create(int[][] array) throws IllegalArgumentException {
-        if ((array == null) || (array.length == 0)) {
-            throw new IllegalArgumentException("Array from which to construct matrix cannot be null or of 0 length");
-        }
-        for (int[] row : array) {
-            if ((row == null) || row.length == 0) {
-                throw new IllegalArgumentException("Array from which to construct matrix cannot contain null row or row of length 0");
-            }
-        }
-
-        return new DefaultMatrix(getCopy(array));
     }
 
     @Override
@@ -71,7 +58,7 @@ public final class DefaultMatrix implements Matrix {
 
     @Override
     public DefaultMatrix multiply(int scalar) {
-        int[][] result = getCopy(array);
+        int[][] result = Matrices.Util.getCopy(array);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 result[i][j] = array[i][j] * scalar;
@@ -137,14 +124,4 @@ public final class DefaultMatrix implements Matrix {
         }
         return builder.isEquals();
     }
-
-    private static int[][] getCopy(int[][] array) {
-        int rows = array.length;
-        int[][] copy = new int[rows][array[0].length];
-        for (int i = 0; i < rows; i++) {
-            copy[i] = Arrays.copyOf(array[i], rows);
-        }
-        return copy;
-    }
-
 }
