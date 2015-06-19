@@ -148,7 +148,9 @@ public class Matrices {
 
         @Override
         public SquareMatrix multiply(int scalar) {
-            return (scalar == 1) ? this : toSquareMatrix().multiply(scalar);
+            return    (scalar == 1) ? this
+                    : (scalar == 0) ? Square.fromMatrix(zeroMatrix(size, size))
+                    : toSquareMatrix().multiply(scalar);
         }
 
         @Override

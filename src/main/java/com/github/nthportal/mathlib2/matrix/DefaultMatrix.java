@@ -57,7 +57,13 @@ class DefaultMatrix implements Matrix {
     }
 
     @Override
-    public DefaultMatrix multiply(int scalar) {
+    public Matrix multiply(int scalar) {
+        if (scalar == 1) {
+            return this;
+        } else  if (scalar == 0) {
+            return Matrices.zeroMatrix(rows, cols);
+        }
+
         int[][] result = Matrices.Util.getCopy(array);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
