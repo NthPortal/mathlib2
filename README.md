@@ -1,5 +1,7 @@
 # mathlib2
 
+_This project has been discontinued as of or before 2016-01-01_
+
 A Java library of various mathematical objects, including
 
 * Complex numbers
